@@ -3,6 +3,7 @@ import axios from 'axios';
 import EarthQuake from './EarthQuake';
 
 
+
 class Quakes extends React.Component {
     state = {
       earthquakes: [],
@@ -18,21 +19,21 @@ class Quakes extends React.Component {
     .catch((err) => console.log(err))
   };
 
+
   render() {
-    let detail = this.state.earthquakes[this.state.currentIndex];
-    let display;
-
-    if (detail){
-        display = <EarthQuake detail={detail} />
-    }
-
+    const quakeList = [];
+    this.state.earthquakes.forEach((quake) => {
+      let quakeMag = quake.properties.mag;
+      let elapsedTime = quake.properties.time;
+      let location = quake.properties.place;
+      let key = quake.id
+      quakeList.push(<EarthQuake key={key} quakeMag={quakeMag} elapsedTime={elapsedTime} location={location} />);
+    });
     return(
       <div>
-        { display }
+      { quakeList }
       </div>
-    )
-  }
-
+    )}
 };
 
 export default Quakes; 
